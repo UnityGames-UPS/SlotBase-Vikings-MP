@@ -663,7 +663,7 @@ public class SlotBehaviour : MonoBehaviour
     //     CheckWinPopups();
     // }
 
-    yield return new WaitUntil(() => !CheckPopups);
+    // yield return new WaitUntil(() => !CheckPopups);
     if (!IsAutoSpin && !IsFreeSpin)
     {
       ToggleButtonGrp(true);
