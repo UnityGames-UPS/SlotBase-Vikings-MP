@@ -401,7 +401,7 @@ public class SlotBehaviour : MonoBehaviour
     if (Balance_text) Balance_text.text = SocketManager.PlayerData.balance.ToString("F3");
     currentBalance = SocketManager.PlayerData.balance;
     currentTotalBet = SocketManager.InitialData.bets[BetCounter] * Lines;
-    // _bonusManager.PopulateWheel(SocketManager.bonusdata);
+    _bonusManager.PopulateWheel(SocketManager.bonusdata);
     CompareBalance();
     // uiManager.InitialiseUIData(SocketManager.initUIData.paylines);
   }
@@ -639,13 +639,13 @@ public class SlotBehaviour : MonoBehaviour
       CheckPayoutLineBackend(winLine);
     }
 
-    // CheckPopups = true;
+    CheckPopups = true;
 
     if (TotalWin_text) TotalWin_text.text = SocketManager.ResultData.payload.winAmount.ToString("F3");
     BalanceTween?.Kill();
     if (Balance_text) Balance_text.text = SocketManager.ResultData.player.balance.ToString("F3");
 
-    // currentBalance = SocketManager.playerdata.Balance;
+    currentBalance = SocketManager.PlayerData.balance;
 
     // if (SocketManager.resultData.jackpot > 0)
     // {
@@ -654,16 +654,16 @@ public class SlotBehaviour : MonoBehaviour
     //     CheckPopups = true;
     // }
 
-    // if (SocketManager.resultData.isBonus)
-    // {
-    //     CheckBonusGame();
-    // }
-    // else
-    // {
-    //     CheckWinPopups();
-    // }
+    if (SocketManager.ResultData.bonus.BonusSpinStopIndex != -1)
+    {
+      CheckBonusGame();
+    }
+    else
+    {
+      CheckWinPopups();
+    }
 
-    // yield return new WaitUntil(() => !CheckPopups);
+    yield return new WaitUntil(() => !CheckPopups);
     if (!IsAutoSpin && !IsFreeSpin)
     {
       ToggleButtonGrp(true);
@@ -748,7 +748,7 @@ public class SlotBehaviour : MonoBehaviour
 
   internal void CheckBonusGame()
   {
-    // _bonusManager.StartBonus((int)SocketManager.ResultData.BonusStopIndex);
+    _bonusManager.StartBonus(SocketManager.ResultData.bonus.BonusSpinStopIndex);
   }
 
   //generate the payout lines generated 
@@ -792,7 +792,7 @@ public class SlotBehaviour : MonoBehaviour
           }
         }
 
-        foreach(var coord in coords)
+        foreach (var coord in coords)
         {
           int rowIndex = coord.Key;
           int columnIndex = coord.Value;

@@ -36,7 +36,7 @@ public class SocketIOManager : MonoBehaviour
 
   protected string SocketURI = null;
   // protected string TestSocketURI = "https://game-crm-rtp-backend.onrender.com/";
-  protected string TestSocketURI = "https://m88wskhs-5000.inc1.devtunnels.ms/";
+  protected string TestSocketURI = "https://frnp4zmn-5000.inc1.devtunnels.ms/";
   // protected string nameSpace="game"; //BackendChanges
   protected string nameSpace = "playground"; //BackendChanges
   private Socket gameSocket; //BackendChanges
@@ -307,6 +307,8 @@ public class SocketIOManager : MonoBehaviour
           InitialData = myData.gameData;
           UIData = myData.uiData;
           PlayerData = myData.player;
+          bonusdata = GetBonusData(myData.gameData.spinBonus);
+
           if (!SetInit)
           {
             List<string> LinesString = ConvertListListIntToListString(InitialData.lines);
@@ -344,8 +346,15 @@ public class SocketIOManager : MonoBehaviour
     }
   }
 
-
-
+  List<string> GetBonusData(List<int> bonusData)
+  {
+    List<string> bonusDataString = new List<string>();
+    foreach (int data in bonusData)
+    {
+      bonusDataString.Add(data.ToString());
+    }
+    return bonusDataString;
+  }
 
   internal void ReactNativeCallOnFailedToConnect() //BackendChanges
   {
@@ -463,6 +472,7 @@ public class GameData
 {
   public List<List<int>> lines { get; set; }
   public List<double> bets { get; set; }
+  public List<int> spinBonus { get; set; }
 }
 
 [Serializable]
@@ -470,6 +480,13 @@ public class FreeSpins
 {
   public int count { get; set; }
   public bool isNewAdded { get; set; }
+}
+
+[SerializeField]
+public class Bonus
+{
+  public int BonusSpinStopIndex { get; set; }
+  public double amount { get; set; }
 }
 
 [Serializable]
@@ -480,6 +497,7 @@ public class Root
   public List<List<string>> matrix { get; set; }
   public string name { get; set; }
   public Payload payload { get; set; }
+  public Bonus bonus { get; set; }
 
   //Initial Data
   public string id { get; set; }
@@ -491,7 +509,7 @@ public class Root
 [Serializable]
 public class Payload
 {
-  public int winAmount { get; set; }
+  public double winAmount { get; set; }
   public List<Win> wins { get; set; }
 }
 
@@ -500,7 +518,7 @@ public class Win
 {
   public int line { get; set; }
   public List<int> positions { get; set; }
-  public int amount { get; set; }
+  public double amount { get; set; }
 }
 
 [Serializable]
