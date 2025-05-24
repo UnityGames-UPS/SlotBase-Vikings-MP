@@ -475,11 +475,13 @@ public class GameData
   public List<int> spinBonus { get; set; }
 }
 
+
+
 [Serializable]
 public class FreeSpins
 {
   public int count { get; set; }
-  public bool isNewAdded { get; set; }
+  public bool isFreeSpin { get; set; }
 }
 
 [SerializeField]
@@ -498,14 +500,26 @@ public class Root
   public string name { get; set; }
   public Payload payload { get; set; }
   public Bonus bonus { get; set; }
-
+  public Jackpot jackpot { get; set; }
+  public Scatter scatter { get; set; }
+  public FreeSpins freeSpin { get; set; }
   //Initial Data
   public string id { get; set; }
   public GameData gameData { get; set; }
   public UiData uiData { get; set; }
   public Player player { get; set; }
 }
-
+[Serializable]
+public class Scatter
+{   
+    public double amount { get; set; }
+}
+[Serializable]
+public class Jackpot
+{
+    public bool isTriggered { get; set; }
+    public double amount { get; set; }
+}
 [Serializable]
 public class Payload
 {
