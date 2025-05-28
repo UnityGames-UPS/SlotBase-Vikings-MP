@@ -403,7 +403,7 @@ public class SlotBehaviour : MonoBehaviour
     currentTotalBet = SocketManager.InitialData.bets[BetCounter] * Lines;
     _bonusManager.PopulateWheel(SocketManager.bonusdata);
     CompareBalance();
-    // uiManager.InitialiseUIData(SocketManager.initUIData.paylines);
+    uiManager.InitialiseUIData(SocketManager.UIData.paylines);
   }
   #endregion
 

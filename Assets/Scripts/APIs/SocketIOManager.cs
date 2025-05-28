@@ -2,15 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
 using Newtonsoft.Json;
 using Best.SocketIO;
 using Best.SocketIO.Events;
 using Newtonsoft.Json.Linq;
 using System.Runtime.Serialization;
 using Best.HTTP;
-
-
 
 public class SocketIOManager : MonoBehaviour
 {
@@ -511,14 +508,14 @@ public class Root
 }
 [Serializable]
 public class Scatter
-{   
-    public double amount { get; set; }
+{
+  public double amount { get; set; }
 }
 [Serializable]
 public class Jackpot
 {
-    public bool isTriggered { get; set; }
-    public double amount { get; set; }
+  public bool isTriggered { get; set; }
+  public double amount { get; set; }
 }
 [Serializable]
 public class Payload
