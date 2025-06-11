@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Networking;
 
 public class UIManager : MonoBehaviour
 {
@@ -220,8 +217,6 @@ public class UIManager : MonoBehaviour
     if (GameExit_Button) GameExit_Button.onClick.AddListener(delegate
     {
       OpenPopup(QuitPopup_Object);
-      Debug.Log("Quit event: pressed Big_X button");
-
     });
 
     if (NoQuit_Button) NoQuit_Button.onClick.RemoveAllListeners();
@@ -430,7 +425,6 @@ public class UIManager : MonoBehaviour
     isExit = true;
     audioController.PlayButtonAudio();
     slotManager.CallCloseSocket();
-
   }
 
   private void OpenMenu()

@@ -262,7 +262,7 @@ public class SocketIOManager : MonoBehaviour
     SendDataWithNamespace("YES I AM ALIVE");
   }
 
-  private void SendDataWithNamespace(string eventName, string json = null)
+  internal void SendDataWithNamespace(string eventName, string json = null)
   {
     // Send the message
     if (gameSocket != null && gameSocket.IsOpen)
@@ -287,7 +287,7 @@ public class SocketIOManager : MonoBehaviour
 
   internal void CloseSocket()
   {
-    SendDataWithNamespace("EXIT");
+    SendDataWithNamespace("game:exit");
   }
 
   private void ParseResponse(string jsonObject)
