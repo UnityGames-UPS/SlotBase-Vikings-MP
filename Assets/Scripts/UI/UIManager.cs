@@ -424,7 +424,6 @@ public class UIManager : MonoBehaviour
   {
     isExit = true;
     audioController.PlayButtonAudio();
-    // socketManager.SendDataWithNamespace("game:exit");
     slotManager.CallCloseSocket();
   }
 

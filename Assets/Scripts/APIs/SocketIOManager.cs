@@ -287,17 +287,7 @@ public class SocketIOManager : MonoBehaviour
 
   internal void CloseSocket()
   {
-    // SendDataWithNamespace("EXIT");
-    if (gameSocket != null && gameSocket.IsOpen)
-    {
-      gameSocket.Disconnect();
-      manager.Close();
-      Debug.Log("Socket closed successfully.");
-    }
-    else
-    {
-      Debug.LogWarning("Socket is not connected, cannot emit exitUser event.");
-    }
+    SendDataWithNamespace("game:exit");
   }
 
   private void ParseResponse(string jsonObject)
