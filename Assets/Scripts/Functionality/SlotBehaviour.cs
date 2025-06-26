@@ -592,19 +592,18 @@ public class SlotBehaviour : MonoBehaviour
         Tempimages[j].slotImages[i].sprite = myImages[resultNum];
       }
     }
-
-        CheckForFeaturesAnimation();
+    CheckForFeaturesAnimation();
 
 
     if (IsTurboOn)
     {
 
       yield return new WaitForSeconds(0.1f);
-            StopSpinToggle = true;
-        }
+      StopSpinToggle = true;
+    }
     else
     {
-      for (int i = 0; i < 5 ; i++)
+      for (int i = 0; i < 5; i++)
       {
         yield return new WaitForSeconds(0.1f);
         if (StopSpinToggle)
@@ -620,7 +619,7 @@ public class SlotBehaviour : MonoBehaviour
       yield return StopTweening(5, Slot_Transform[i], i, StopSpinToggle);
     }
     StopSpinToggle = false;
-
+    audioController.StopWLAaudio();
     yield return alltweens[^1].WaitForCompletion();
     KillAllTweens();
 
@@ -651,14 +650,14 @@ public class SlotBehaviour : MonoBehaviour
 
     currentBalance = SocketManager.PlayerData.balance;
 
-        if (SocketManager.ResultData.jackpot.isTriggered)
-        {
-            uiManager.PopulateWin(4, SocketManager.ResultData.jackpot.amount);
-            yield return new WaitUntil(() => !CheckPopups);
-            CheckPopups = true;
-        }
+    if (SocketManager.ResultData.jackpot.isTriggered)
+    {
+      uiManager.PopulateWin(4, SocketManager.ResultData.jackpot.amount);
+      yield return new WaitUntil(() => !CheckPopups);
+      CheckPopups = true;
+    }
 
-        if (SocketManager.ResultData.bonus.BonusSpinStopIndex != -1)
+    if (SocketManager.ResultData.bonus.BonusSpinStopIndex != -1)
     {
       CheckBonusGame();
     }
@@ -678,80 +677,80 @@ public class SlotBehaviour : MonoBehaviour
       // yield return new WaitForSeconds(2f);
       IsSpinning = false;
     }
-        if (SocketManager.ResultData.freeSpin.isFreeSpin)
-        {
-            if (IsFreeSpin)
-            {
-                IsFreeSpin = false;
-                if (FreeSpinRoutine != null)
-                {
-                    StopCoroutine(FreeSpinRoutine);
-                    FreeSpinRoutine = null;
-                }
-            }
-            uiManager.FreeSpinProcess((int)SocketManager.ResultData.freeSpin.count);
-            if (IsAutoSpin)
-            {
-                WasAutoSpinOn = true;
-                StopAutoSpin();
-                yield return new WaitForSeconds(0.1f);
-            }
-        }
-    }
-    private void CheckForFeaturesAnimation()
+    if (SocketManager.ResultData.freeSpin.isFreeSpin)
     {
-        bool playJackpot = false;
-        bool playScatter = false;
-        bool playBonus = false;
-        bool playFreespin = false;
-        if (SocketManager.ResultData.jackpot.amount > 0)
+      if (IsFreeSpin)
+      {
+        IsFreeSpin = false;
+        if (FreeSpinRoutine != null)
         {
-            playJackpot = true;
+          StopCoroutine(FreeSpinRoutine);
+          FreeSpinRoutine = null;
         }
-        if (SocketManager.ResultData.scatter.amount > 0)
-        {
-            playScatter = true;
-        }
-        if (SocketManager.ResultData.bonus.amount > 0)
-        {
-            playBonus = true;
-        }
-        if (SocketManager.ResultData.freeSpin.isFreeSpin )
-        {
-            playFreespin = true;
-        }
-        PlayFeatureAnimation(playJackpot, playScatter, playBonus, playFreespin) ;
+      }
+      uiManager.FreeSpinProcess((int)SocketManager.ResultData.freeSpin.count);
+      if (IsAutoSpin)
+      {
+        WasAutoSpinOn = true;
+        StopAutoSpin();
+        yield return new WaitForSeconds(0.1f);
+      }
     }
-    private void PlayFeatureAnimation(bool jackpot =false,bool scatter = false, bool bonus =false,bool freeSpin = false)
-    {               
-            for (int i = 0; i < SocketManager.ResultData.matrix.Count; i++)
-            {
-                for (int j = 0; j < SocketManager.ResultData.matrix[i].Count; j++)
-                {
+  }
+  private void CheckForFeaturesAnimation()
+  {
+    bool playJackpot = false;
+    bool playScatter = false;
+    bool playBonus = false;
+    bool playFreespin = false;
+    if (SocketManager.ResultData.jackpot.amount > 0)
+    {
+      playJackpot = true;
+    }
+    if (SocketManager.ResultData.scatter.amount > 0)
+    {
+      playScatter = true;
+    }
+    if (SocketManager.ResultData.bonus.amount > 0)
+    {
+      playBonus = true;
+    }
+    if (SocketManager.ResultData.freeSpin.isFreeSpin)
+    {
+      playFreespin = true;
+    }
+    PlayFeatureAnimation(playJackpot, playScatter, playBonus, playFreespin);
+  }
+  private void PlayFeatureAnimation(bool jackpot = false, bool scatter = false, bool bonus = false, bool freeSpin = false)
+  {
+    for (int i = 0; i < SocketManager.ResultData.matrix.Count; i++)
+    {
+      for (int j = 0; j < SocketManager.ResultData.matrix[i].Count; j++)
+      {
 
-                    if (int.TryParse(SocketManager.ResultData.matrix[i][j], out int parsedNumber))
-                    {
-                        if ( jackpot && parsedNumber == 12 )
-                        {
-                            StartGameAnimation(Tempimages[j].slotImages[i].gameObject);
-                        }
-                        if (scatter && parsedNumber == 11)
-                        {
-                            StartGameAnimation(Tempimages[j].slotImages[i].gameObject);
-                        }
-                        if (bonus && parsedNumber == 13)
-                        {
-                            StartGameAnimation(Tempimages[j].slotImages[i].gameObject);
-                        }
-                    if (freeSpin && parsedNumber == 9)
-                    {
-                        StartGameAnimation(Tempimages[j].slotImages[i].gameObject);
-                    }
-                }
-                   
-                }
-            }                
+        if (int.TryParse(SocketManager.ResultData.matrix[i][j], out int parsedNumber))
+        {
+          if (jackpot && parsedNumber == 12)
+          {
+            StartGameAnimation(Tempimages[j].slotImages[i].gameObject);
+          }
+          if (scatter && parsedNumber == 11)
+          {
+            StartGameAnimation(Tempimages[j].slotImages[i].gameObject);
+          }
+          if (bonus && parsedNumber == 13)
+          {
+            StartGameAnimation(Tempimages[j].slotImages[i].gameObject);
+          }
+          if (freeSpin && parsedNumber == 9)
+          {
+            StartGameAnimation(Tempimages[j].slotImages[i].gameObject);
+          }
+        }
+
+      }
     }
+  }
   private void BalanceDeduction()
   {
     double bet = 0;

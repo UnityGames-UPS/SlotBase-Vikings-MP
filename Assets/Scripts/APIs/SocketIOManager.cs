@@ -30,7 +30,7 @@ public class SocketIOManager : MonoBehaviour
 
   protected string SocketURI = null;
   // protected string TestSocketURI = "https://game-crm-rtp-backend.onrender.com/";
-  protected string TestSocketURI = "https://frnp4zmn-5000.inc1.devtunnels.ms/";
+  protected string TestSocketURI = "https://9qr6bgs3-5000.inc1.devtunnels.ms/";
   // protected string nameSpace="game"; //BackendChanges
   protected string nameSpace = "playground"; //BackendChanges
   private Socket gameSocket; //BackendChanges
