@@ -5,9 +5,6 @@ using System;
 using Newtonsoft.Json;
 using Best.SocketIO;
 using Best.SocketIO.Events;
-using Newtonsoft.Json.Linq;
-using System.Runtime.Serialization;
-using Best.HTTP;
 
 public class SocketIOManager : MonoBehaviour
 {

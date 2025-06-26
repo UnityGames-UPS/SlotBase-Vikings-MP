@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Slot-Vikings.sln"
+    "dotnet.defaultSolution": "SlotBase-Vikings-MP.sln"
 }
