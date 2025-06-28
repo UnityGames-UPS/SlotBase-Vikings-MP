@@ -6161,7 +6161,7 @@ MonoBehaviour:
   bonusdata: []
   _jsManager: {fileID: 500036493}
   JSManager: {fileID: 1029290966}
-  testToken: a55b2cb6b3bf470cbaec4e8960a89cb8
+  testToken: a3204dc57b3a401a91629230df07a162
 --- !u!114 &500036493
 MonoBehaviour:
   m_ObjectHideFlags: 0

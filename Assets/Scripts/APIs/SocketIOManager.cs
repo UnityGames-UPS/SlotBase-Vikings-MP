@@ -30,7 +30,7 @@ public class SocketIOManager : MonoBehaviour
 
   protected string SocketURI = null;
   // protected string TestSocketURI = "https://game-crm-rtp-backend.onrender.com/";
-  protected string TestSocketURI = "https://9qr6bgs3-5000.inc1.devtunnels.ms/";
+  protected string TestSocketURI = "https://vd20qkgb-5000.inc1.devtunnels.ms/";
   // protected string nameSpace="game"; //BackendChanges
   protected string nameSpace = "playground"; //BackendChanges
   private Socket gameSocket; //BackendChanges
@@ -79,31 +79,46 @@ public class SocketIOManager : MonoBehaviour
     options.Reconnection = true;
     options.ConnectWith = Best.SocketIO.Transports.TransportTypes.WebSocket; //BackendChanges
 
-#if UNITY_WEBGL && !UNITY_EDITOR
-    string url = Application.absoluteURL;
-    Debug.Log("Unity URL : " + url);
-    ExtractUrlAndToken(url);
+    #if UNITY_WEBGL && !UNITY_EDITOR
+        JSManager.SendCustomMessage("authToken");
+        StartCoroutine(WaitForAuthToken(options));
+    #else
+        Func<SocketManager, Socket, object> authFunction = (manager, socket) =>
+        {
+          return new
+          {
+            token = testToken
+          };
+        };
+        options.Auth = authFunction;
+        SetupSocketManager(options);
+    #endif
 
-    Func<SocketManager, Socket, object> webAuthFunction = (manager, socket) =>
-    {
-      return new
-      {
-        token = testToken,
-      };
-    };
-    options.Auth = webAuthFunction;
-#else
-    Func<SocketManager, Socket, object> authFunction = (manager, socket) =>
-    {
-      return new
-      {
-        token = testToken,
-      };
-    };
-    options.Auth = authFunction;
-#endif
-    // Proceed with connecting to the server
-    SetupSocketManager(options);
+    // #if UNITY_WEBGL && !UNITY_EDITOR
+    //     string url = Application.absoluteURL;
+    //     Debug.Log("Unity URL : " + url);
+    //     ExtractUrlAndToken(url);
+
+    //     Func<SocketManager, Socket, object> webAuthFunction = (manager, socket) =>
+    //     {
+    //       return new
+    //       {
+    //         token = testToken,
+    //       };
+    //     };
+    //     options.Auth = webAuthFunction;
+    // #else
+    //     Func<SocketManager, Socket, object> authFunction = (manager, socket) =>
+    //     {
+    //       return new
+    //       {
+    //         token = testToken,
+    //       };
+    //     };
+    //     options.Auth = authFunction;
+    // #endif
+    //     // Proceed with connecting to the server
+    //     SetupSocketManager(options);
   }
 
 
@@ -126,8 +141,7 @@ public class SocketIOManager : MonoBehaviour
     {
       return new
       {
-        token = myAuth,
-        gameId = gameID
+        token = myAuth
       };
     };
     options.Auth = authFunction;
@@ -142,6 +156,7 @@ public class SocketIOManager : MonoBehaviour
 
   private void SetupSocketManager(SocketOptions options)
   {
+    Debug.Log("Setup socket manager");
     // Create and setup SocketManager
 #if UNITY_EDITOR
     this.manager = new SocketManager(new Uri(TestSocketURI), options);
@@ -155,7 +170,7 @@ public class SocketIOManager : MonoBehaviour
     }
     else
     {
-      print("nameSpace: " + nameSpace);
+      Debug.Log("nameSpace: " + nameSpace);
       gameSocket = this.manager.GetSocket("/" + nameSpace);
     }
     // Set subscriptions
@@ -285,6 +300,10 @@ public class SocketIOManager : MonoBehaviour
   internal void CloseSocket()
   {
     SendDataWithNamespace("game:exit");
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+    JSManager.SendCustomMessage("OnExit");
+#endif
   }
 
   private void ParseResponse(string jsonObject)
@@ -333,7 +352,7 @@ public class SocketIOManager : MonoBehaviour
           }
           //   Application.ExternalCall("window.parent.postMessage", "onExit", "*");
 #if UNITY_WEBGL && !UNITY_EDITOR
-                        JSManager.SendCustomMessage("onExit");
+                        JSManager.SendCustomMessage("OnExit");
 #endif
           break;
         }
@@ -353,7 +372,7 @@ public class SocketIOManager : MonoBehaviour
   internal void ReactNativeCallOnFailedToConnect() //BackendChanges
   {
 #if UNITY_WEBGL && !UNITY_EDITOR
-    JSManager.SendCustomMessage("onExit");
+    JSManager.SendCustomMessage("OnExit");
 #endif
   }
 
