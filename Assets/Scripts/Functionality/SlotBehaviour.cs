@@ -148,7 +148,7 @@ public class SlotBehaviour : MonoBehaviour
   private float SpinDelay = 0.2f;
   private bool IsTurboOn;
   internal bool WasAutoSpinOn;
-
+  internal bool socketConnected = false;
   private void Start()
   {
     IsAutoSpin = false;
@@ -394,6 +394,7 @@ public class SlotBehaviour : MonoBehaviour
 
   internal void SetInitialUI()
   {
+    socketConnected = true;
     BetCounter = 0;
     if (LineBet_text) LineBet_text.text = SocketManager.InitialData.bets[BetCounter].ToString();
     if (TotalBet_text) TotalBet_text.text = (SocketManager.InitialData.bets[BetCounter] * Lines).ToString();
